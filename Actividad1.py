@@ -1,21 +1,56 @@
 import time
-class Proceso:
-    def __init__(self, id, tTotal, tCompletado, estado):
-       self.id = id
-       self.tTotal = tTotal
-       self.tCompletado = tCompletado
-       self.estado = estado
+import xml.etree.ElementTree as ET
+from noticia import Noticia
 
-    def ejecutar(self):
-        print('Proceso: {0}, Estado: {1}'.format(self.id, self.estado))
-        self.estado = "Ejecutando"
-        for x in range(0, self.tTotal):
-            self.tCompletado += 1
-            print('Proceso: {0}, Estado: {1}, Completado: {2}'.format(self.id, self.estado, self.tCompletado))
-            time.sleep(1)
-        self.estado = "Finalizado"
-        print('Proceso: {0}, Estado: {1}'.format(self.id, self.estado))
+def print_menu():
+    print( 30 * "-")
+    print( "1. Agregar Noticia")
+    print( "2. Exportar XML")
+    print( "3. Importar XML")
+    print( "4. Exit")
+    print( 67 * "-")
 
-procesos = [Proceso(1,10,0,"Listo"),Proceso(2,5,0,"Listo"),Proceso(3,15,0,"Listo")]
-for proceso in procesos:
-    proceso.ejecutar()
+def agregarNoticia(parameter_list):
+    print("")
+    
+def main():
+    loop=True      
+    lNoticias = [Noticia('1', '1', '1', '1')]
+
+    while loop:
+        print_menu()
+        choice = input("Enter your choice [1-5]: ")
+        
+        if choice=='1':     
+            print("Menu 1 has been selected")
+            codigo = input("Ingrese el codigo: ")
+            ambito = input("Ingrese el ambito: ")
+            fecha = input("Ingrese el fecha: ")
+            descripcion = input("Ingrese el descripcion: ")
+            lNoticias.append(Noticia(codigo, ambito, fecha, descripcion))
+                
+        elif choice=='2':
+            print ("Menu 2 has been selected")
+            xmlNoticias = ET.Element("Noticias")
+            for lNoticia in lNoticias:
+                xmlNoticia = ET.SubElement(xmlNoticias, "Noticia")
+                xmlNoticia.set('codigo',lNoticia.codigo)
+                xmlNoticia.set('ambito',lNoticia.ambito)
+                xmlNoticia.set('fecha',lNoticia.fecha)
+                xmlNoticia.set('descripcion',lNoticia.descripcion)
+            
+            xmlTree = ET.ElementTree(xmlNoticias)
+            xmlTree.write('noticias.xml', encoding='utf-8', method='xml', xml_declaration=True)
+            
+                
+            
+        elif choice=='3':
+            print ("Menu 3 has been selected")
+            
+        elif choice=='4':
+            print ("Menu 5 has been selected")
+            
+            loop=False
+
+if __name__== "__main__":
+    main()
