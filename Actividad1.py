@@ -15,7 +15,7 @@ def agregarNoticia(parameter_list):
     
 def main():
     loop=True      
-    lNoticias = [Noticia('1', '1', '1', '1')]
+    lNoticias = [Noticia('1', '1', '1', '1'),Noticia('2', '2', '2', '2'),Noticia('3', '3', '3', '3')]
     templNoticias = []
 
     while loop:
@@ -28,7 +28,10 @@ def main():
             ambito = input("Ingrese el ambito: ")
             fecha = input("Ingrese el fecha: ")
             descripcion = input("Ingrese el descripcion: ")
-            lNoticias.append(Noticia(codigo, ambito, fecha, descripcion))
+            temp = Noticia(codigo, ambito, fecha, descripcion)
+            temp.visualizar()
+            lNoticias.append(temp)
+
                 
         elif choice=='2':
             print ("Menu 2 has been selected")
@@ -49,8 +52,12 @@ def main():
             print ("Menu 3 has been selected")
             templNoticias = ET.parse("./noticias.xml").getroot()
             for noticia in templNoticias:
-                lNoticias.append(noticia)
                 print(noticia.tag, noticia.attrib)
+                lNoticias.append(Noticia(noticia.attrib["codigo"], noticia.attrib["ambito"], noticia.attrib["fecha"], noticia.attrib["descripcion"]))
+            
+            for lnoticia in lNoticias:
+                lnoticia.visualizar()
+                
                 
         elif choice=='4':
             print ("Menu 5 has been selected")
